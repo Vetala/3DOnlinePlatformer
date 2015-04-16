@@ -10,6 +10,7 @@
 // ----------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -196,6 +197,22 @@ public class PhotonPlayer
         if (this.actorID > 0 && !PhotonNetwork.offlineMode)
         {
             PhotonNetwork.networkingPeer.OpSetCustomPropertiesOfActor(this.actorID, customProps, true, 0);
+        }
+        NetworkingPeer.SendMonoMessage(PhotonNetworkingMessage.OnPhotonPlayerPropertiesChanged, this, propertiesToSet);
+    }
+
+    public void SetCustomProperties(Hashtable propertiesToSet, Hashtable expectedValues)
+    {
+        if (propertiesToSet == null)
+        {
+            return;
+        }
+
+        if (this.actorID > 0 && !PhotonNetwork.offlineMode)
+        {
+            Hashtable customProps = propertiesToSet.StripToStringKeys() as Hashtable;
+            Hashtable customPropsToCheck = expectedValues.StripToStringKeys() as Hashtable;
+            PhotonNetwork.networkingPeer.OpSetPropertiesOfActor(this.actorID, customProps, false, 0, customPropsToCheck);
         }
         NetworkingPeer.SendMonoMessage(PhotonNetworkingMessage.OnPhotonPlayerPropertiesChanged, this, propertiesToSet);
     }

@@ -131,7 +131,7 @@ public class PhotonEditor : EditorWindow
 
     protected static string UrlAccountPage = "https://www.exitgames.com/Account/SignIn?email="; // opened in browser
 
-    protected static string UrlCloudDashboard = "https://cloud.exitgames.com/Dashboard?email=";
+    protected static string UrlCloudDashboard = "https://www.exitgames.com/Dashboard?email=";
 
 
     private enum GUIState
@@ -180,7 +180,6 @@ public class PhotonEditor : EditorWindow
 
     private static bool dontCheckPunSetupField;
 
-    private static Texture2D HelpIcon;
     private static Texture2D WizardIcon;
 
     protected static Type WindowType = typeof(PhotonEditor);
@@ -220,7 +219,6 @@ public class PhotonEditor : EditorWindow
         EditorApplication.playmodeStateChanged += PlaymodeStateChanged;
         EditorApplication.update += OnUpdate;
 
-        HelpIcon = AssetDatabase.LoadAssetAtPath("Assets/Photon Unity Networking/Editor/PhotonNetwork/help.png", typeof(Texture2D)) as Texture2D;
         WizardIcon = AssetDatabase.LoadAssetAtPath("Assets/Photon Unity Networking/photoncloud-icon.png", typeof(Texture2D)) as Texture2D;
 
         // to be used in toolbar, the enum needs conversion to string[] being done here, once.
@@ -256,7 +254,7 @@ public class PhotonEditor : EditorWindow
             return; // don't import while compiling
         }
 
-        #if UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6 || UNITY_5 || UNITY_5_1 || UNITY_5_2
+        #if UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
         const string win8Package = "Assets/Plugins/Photon3Unity3D-Win8.unitypackage";
 
         bool win8LibsExist = File.Exists("Assets/Plugins/WP8/Photon3Unity3D.dll") && File.Exists("Assets/Plugins/Metro/Photon3Unity3D.dll");
@@ -322,14 +320,14 @@ public class PhotonEditor : EditorWindow
         // after a compile, check RPCs to create a cache-list
         if (!postCompileActionsDone && !EditorApplication.isCompiling && !EditorApplication.isPlayingOrWillChangePlaymode && PhotonEditor.Current != null)
         {
-            #if UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6 || UNITY_5 || UNITY_5_1 || UNITY_5_2
+            #if UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
             if (EditorApplication.isUpdating) return;
             #endif
 
             PhotonEditor.UpdateRpcList();
             postCompileActionsDone = true;  // on compile, this falls back to false (without actively doing anything)
-            
-            #if UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6 || UNITY_5 || UNITY_5_1 || UNITY_5_2
+
+            #if UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
             PhotonEditor.ImportWin8Support();
             #endif
         }
@@ -655,7 +653,7 @@ public class PhotonEditor : EditorWindow
         GUILayout.BeginHorizontal();
         this.cloudAppId = EditorGUILayout.TextField(this.cloudAppId);
 
-        open = GUILayout.Toggle(open, HelpIcon, GUIStyle.none, GUILayout.ExpandWidth(false));
+        open = GUILayout.Toggle(open, PhotonGUI.HelpIcon, GUIStyle.none, GUILayout.ExpandWidth(false));
 
         GUILayout.EndHorizontal();
 
@@ -669,7 +667,7 @@ public class PhotonEditor : EditorWindow
 
         GUILayout.BeginHorizontal();
         int toolbarValue = GUILayout.Toolbar((int)selectedRegion, CloudServerRegionNames);   // the enum CloudRegionCode is converted into a string[] in init (toolbar can't use enum)
-        helpRegion = GUILayout.Toggle(helpRegion, HelpIcon, GUIStyle.none, GUILayout.ExpandWidth(false));
+        helpRegion = GUILayout.Toggle( helpRegion, PhotonGUI.HelpIcon, GUIStyle.none, GUILayout.ExpandWidth( false ) );
         GUILayout.EndHorizontal();
 
 

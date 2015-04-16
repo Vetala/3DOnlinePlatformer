@@ -1,10 +1,5 @@
 fileFormatVersion: 2
-guid: f1672d52d7463df4fa7b3e54a25594d4
-labels:
-- ExitGames
-- PUN
-- Photon
-- Networking
+guid: 0fde7ed6b48eeb0459688e40ab3bb2d4
 TextScriptImporter:
   userData: 
   assetBundleName: 
